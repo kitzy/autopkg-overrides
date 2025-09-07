@@ -1,5 +1,6 @@
 # One recipe name per line. These must resolve via your added recipe repos.
 # Examples:
-Firefox.pkg
 # Slack.pkg
 # Zoom.pkg
+
+Firefox.pkg
