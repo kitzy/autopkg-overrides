@@ -3,4 +3,4 @@
 # Slack.pkg
 # Zoom.pkg
 
-Firefox.pkg.recipe
+Firefox.pkg
