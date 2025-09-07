@@ -1,0 +1,34 @@
+name: Verify AutoPkg trust
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup AutoPkg
+        uses: autopkg/setup-autopkg-actions@v1
+
+      - name: Add upstream recipe repos
+        run: |
+          set -euo pipefail
+          autopkg repo-add https://github.com/autopkg/recipes || true
+          autopkg repo-add https://github.com/homebysix/recipes || true
+          autopkg repo-add https://github.com/homebysix/stopthescripts || true
+          autopkg repo-list
+
+      - name: Verify trust for all overrides (if any)
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          failures=0
+          for f in overrides/*.recipe overrides/*.recipe.yaml; do
+            echo "Verifying trust: $f"
+            if ! autopkg verify-trust-info "$f"; then
+              echo "::error ::Trust verification failed for $f"
+              failures=1
+            fi
+          done
+          exit $failures

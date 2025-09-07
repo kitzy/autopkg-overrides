@@ -1,0 +1,6 @@
+# local artifacts
+*.DS_Store
+*.swp
+.idea/
+.vscode/
+out/
